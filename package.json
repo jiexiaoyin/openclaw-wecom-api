@@ -1,9 +1,8 @@
 {
   "name": "wecomtool",
   "version": "1.0.0",
-  "description": "企业微信 API 工具 OpenClaw 插件 - 继承 OpenClaw 端口，支持 32+ API 模块",
+  "description": "企业微信 API 工具 OpenClaw 插件",
   "main": "src/index.js",
-  "type": "module",
   "exports": {
     ".": "./src/index.js"
   },
@@ -26,7 +25,7 @@
   },
   "openclaw": {
     "extensions": [
-      "./plugin.ts"
+      "./plugin.cjs"
     ]
   },
   "engines": {

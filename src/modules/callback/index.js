@@ -124,20 +124,32 @@ class Callback extends EventEmitter {
   decrypt(encrypt) {
     try {
       const aesKey = Buffer.from(this.encodingAESKey + '=', 'base64');
-      const cipher = crypto.createDecipheriv('aes-256-cbc', aesKey, aesKey.slice(0, 16));
+      const decipher = crypto.createDecipheriv('aes-256-cbc', aesKey, aesKey.slice(0, 16));
+      decipher.setAutoPadding(false);  // 关键：禁用自动填充，手动处理 PKCS#7
       
-      let decrypted = cipher.update(encrypt, 'base64', 'utf8');
-      decrypted += cipher.final('utf8');
+      let decryptedPadded = Buffer.concat([
+        decipher.update(encrypt, 'base64'),
+        decipher.final()
+      ]);
 
-      // 去除 PKCS7 填充
-      const pad = decrypted.charCodeAt(decrypted.length - 1);
-      decrypted = decrypted.slice(0, decrypted.length - pad);
+      // WeCom uses PKCS#7 with block size 32 (not 16 which is standard AES)
+      const WECOM_PKCS7_BLOCK_SIZE = 32;
+      const pad = decryptedPadded[decryptedPadded.length - 1];
+      if (pad < 1 || pad > WECOM_PKCS7_BLOCK_SIZE) {
+        throw new Error('invalid pkcs7 padding');
+      }
+      const decrypted = decryptedPadded.subarray(0, decryptedPadded.length - pad);
 
-      // 去除 CorpId
-      const xmlContent = decrypted.slice(20);
-      const parseEnd = xmlContent.indexOf('>');
-      const result = xmlContent.slice(parseEnd + 1);
-
+      // 去除前 20 字节 (random 16 bytes + msgLen 4 bytes)
+      const msgLen = decrypted.readUInt32BE(16);
+      const msgStart = 20;
+      const msgEnd = msgStart + msgLen;
+      
+      if (msgEnd > decrypted.length) {
+        throw new Error('invalid decrypted msg length');
+      }
+      
+      const result = decrypted.subarray(msgStart, msgEnd).toString('utf8');
       return result;
     } catch (e) {
       throw new Error('解密失败: ' + e.message);
@@ -286,15 +298,20 @@ class Callback extends EventEmitter {
    * 处理消息事件
    */
   async _handleMessage(msgSignature, timestamp, nonce, xmlBody) {
+    console.log('[wecomtool] _handleMessage called');
+    console.log('[wecomtool] xmlBody preview:', xmlBody ? xmlBody.substring(0, 300) : 'missing');
     const xml = await this.parseXML(xmlBody);
+    console.log('[wecomtool] parsed xml Encrypt length:', xml.Encrypt ? xml.Encrypt.length : 'null');
     const encrypt = xml.Encrypt;
     
     // 验证签名
+    console.log('[wecomtool] verifying signature...');
     if (!this.verifyMessage(msgSignature, timestamp, nonce, encrypt)) {
       throw new Error('签名验证失败');
     }
     
     // 解密消息
+    console.log('[wecomtool] decrypting...');
     const decryptedXml = this.decrypt(encrypt);
     const message = await this.parseMessage(decryptedXml);
     

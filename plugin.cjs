@@ -14,7 +14,7 @@ const CallbackModule = require('./src/modules/callback/index.js');
 const CallbackClass = CallbackModule.default || CallbackModule;
 
 // 导入回调工具函数
-const { createStandardHandler } = require('./src/utils/callback-helper.js');
+const { createCallbackHandler } = require('./src/callback-helper.js');
 
 let callbackInstance = null;
 let callbackHandler = null;
@@ -52,22 +52,26 @@ const plugin = {
     }
 
     // 创建回调处理器
-    callbackHandler = createStandardHandler(callbackInstance, (message, info) => {
-      // 事件记录
-      const eventType = message.Event || message.MsgType || 'unknown';
-      const fromUser = message.FromUserName || 'unknown';
-      
-      if (callbackInstance && callbackInstance._recordEvent) {
-        callbackInstance._recordEvent({
-          type: eventType,
-          fromUserName: fromUser,
-          raw: message,
-          timestamp: Date.now(),
-          encrypted: info.encrypted,
-        });
-      }
-      
-      console.log(`[wecomtool] 事件: ${eventType} from ${fromUser}`);
+    callbackHandler = createCallbackHandler({
+      callbackInstance,
+      mode: config.callbackMode || 'independent',
+      alwaysReturnSuccess: true,
+      onMessage: (message, info) => {
+        const eventType = message.Event || message.MsgType || 'unknown';
+        const fromUser = message.FromUserName || 'unknown';
+        
+        if (callbackInstance && callbackInstance._recordEvent) {
+          callbackInstance._recordEvent({
+            type: eventType,
+            fromUserName: fromUser,
+            raw: message,
+            timestamp: Date.now(),
+            mode: info.mode,
+          });
+        }
+        
+        console.log(`[wecomtool] 事件: ${eventType} from ${fromUser}`);
+      },
     });
 
     // 注册 HTTP 路由
