@@ -148,11 +148,11 @@ class ContactStats extends WeComSDK {
       }
     }
 
-    // 2. 有员工 → 逐员工调用 API
-    return this.post('/externalcontact/get_user_client_data', {
-      userid_list: [userId],
-      start_time: String(startDate),
-      end_time: String(endDate)
+    // 2. 有员工 → 逐员工调用 API（注意：企业微信用 userid 而非 userid_list）
+    return this.post('/externalcontact/get_user_behavior_data', {
+      userid: [userId],
+      start_time: startDate,
+      end_time: endDate
     });
   }
 
@@ -180,12 +180,12 @@ class ContactStats extends WeComSDK {
         }
       }
 
-      // 2. 有员工 → 逐员工调用 API
+      // 2. 有员工 → 逐员工调用 API（注意：企业微信用 userid 而非 userid_list）
       try {
-        const result = await this.post('/externalcontact/get_user_client_data', {
-          userid_list: [userId],
-          start_time: String(startDate),
-          end_time: String(endDate)
+        const result = await this.post('/externalcontact/get_user_behavior_data', {
+          userid: [userId],
+          start_time: startDate,
+          end_time: endDate
         });
         results.success.push({ userId, result });
       } catch (error) {
