@@ -78,6 +78,10 @@ const plugin = {
       });
       
       // 检查是否需要同步
+      // 如果缓存文件已存在，标记为已同步（无需用户再确认）
+      if (addressBookCache.getSyncStatus().lastSyncTime) {
+        addressBookCache.syncConfirmed = true;
+      }
       const syncStatus = addressBookCache.requestSync();
       
       if (syncStatus.needConfirm) {

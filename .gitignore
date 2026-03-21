@@ -33,3 +33,4 @@ addressbook_cache.json
 # 统计数据（敏感）
 stats*.json
 wecom-stats.json
+node_modules/
