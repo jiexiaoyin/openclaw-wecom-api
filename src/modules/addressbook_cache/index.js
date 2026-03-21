@@ -141,6 +141,9 @@ class AddressBookCache {
 
   /**
    * 初始化/更新完整通讯录
+   * 
+   * ⚠️ 注意：只需获取根部门（id=1）并设置 fetch_child=true
+   * 因为它会递归获取所有子部门成员，避免重复获取
    */
   async syncFromAPI(addressbook) {
     console.log('[AddressBookCache] 从 API 同步通讯录...');
@@ -156,24 +159,30 @@ class AddressBookCache {
         this.cache.departmentMap[dept.id] = dept;
       }
       
-      // 获取所有员工（按部门）
+      // 获取所有员工（只需获取根部门，fetch_child=true 会递归获取子部门）
       this.cache.users = [];
       this.cache.userMap = {};
       
-      for (const dept of this.cache.departments) {
-        try {
-          const users = await addressbook.getDepartmentUsers(dept.id, true);
-          if (users.userlist) {
-            for (const user of users.userlist) {
-              user.departmentId = dept.id;
-              user.departmentName = dept.name;
+      try {
+        // 只获取根部门，fetch_child=true 会递归获取所有子部门成员
+        const users = await addressbook.getDepartmentUsers(1, true);
+        if (users.userlist) {
+          for (const user of users.userlist) {
+            // 根据用户所在的部门设置信息
+            const dept = this.cache.departmentMap[user.department?.[0] || 1];
+            user.departmentId = user.department?.[0] || 1;
+            user.departmentName = dept?.name || '未知部门';
+            
+            // 使用 userId 去重
+            if (!this.cache.userMap[user.userid]) {
               this.cache.users.push(user);
               this.cache.userMap[user.userid] = user;
             }
           }
-        } catch (e) {
-          console.log(`[AddressBookCache] 获取部门 ${dept.id} 成员失败:`, e.message);
         }
+        console.log(`[AddressBookCache] 获取成员成功: ${users.userlist?.length || 0} 人`);
+      } catch (e) {
+        console.log('[AddressBookCache] 获取成员失败:', e.message);
       }
       
       this._saveCache();
