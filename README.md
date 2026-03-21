@@ -112,11 +112,77 @@ location = /plugins/wecomtool/callback {
 | schedule | 日程管理 |
 | approval | 审批管理 |
 | contact | 客户联系 |
+| contact_stats | 客户统计（含智能判断） |
 | addressbook | 通讯录 |
 | checkin | 打卡考勤 |
 | custom | 微信客服 |
 | media | 素材管理 |
 | ... | 更多 |
+
+## ⚠️ 客户统计 API 重要限制
+
+### 数据时效限制
+
+| 数据类型 | 查询方式 | 说明 |
+|----------|----------|------|
+| **历史数据** | API 查询 | 可查询昨天及之前的数据 |
+| **当日数据** | 事件回调 | 只能通过事件回调获取实时数据 |
+
+**原因**：企业微信统计 API 无法查询当天数据。
+
+### 多用户查询限制
+
+| 查询方式 | 返回结果 |
+|----------|----------|
+| 传入多个 userid | 返回**总体数据**，不是每人一条 |
+| 逐个传入 userid | 可获取**个人数据** |
+
+**建议**：如需查看每个员工的统计数据，需循环调用 API。
+
+### 智能统计方法
+
+wecomtool 提供 `getUserClientStatSmart()` 方法，自动判断日期范围：
+
+```javascript
+const wecom = new WeComTool(config);
+const contactStats = wecom.contact_stats;
+
+// 查询最近7天（自动处理今天和历史数据）
+const stats = await contactStats.getUserClientStatSmart(
+  startTime,  // 7天前时间戳
+  endTime,    // 当前时间戳
+  'user1,user2'
+);
+
+// 返回结构
+// {
+//   isTodayIncluded: true,
+//   historical: { ... },  // 历史数据（API返回）
+//   today: {             // 当日实时数据
+//     newCustomers: 5,
+//     lostCustomers: 1,
+//     messagesSent: 23,
+//     chatsCount: 12,
+//     applications: 3
+//   }
+// }
+```
+
+### 事件回调统计
+
+当收到以下事件时，可调用 `updateTodayStats()` 更新当日统计：
+
+| 事件类型 | 统计指标 |
+|----------|----------|
+| `add_external_contact` | 新增客户数 |
+| `del_external_contact` | 删除/拉黑客户数 |
+| `change_external_contact` | 客户变更 |
+| 消息发送事件 | 发送消息数、聊天数 |
+
+```javascript
+// 在事件回调中调用
+contactStats.updateTodayStats('add_external_contact', { userId, externalUserId });
+```
 
 ## 文件结构
 
