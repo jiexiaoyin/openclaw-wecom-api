@@ -27,12 +27,70 @@
  */
 
 const WeComSDK = require('../../sdk');
+const fs = require('fs');
+const path = require('path');
 
 class ContactStats extends WeComSDK {
   constructor(config) {
     super(config);
     // 用于缓存当日实时数据（从事件回调收集）
-    this._todayStats = this._initTodayStats();
+    this._storagePath = path.join(process.cwd(), 'data', 'wecom-stats.json');
+    this._todayStats = this._loadStats();
+  }
+
+  /**
+   * 加载持久化的统计数据
+   * @private
+   */
+  _loadStats() {
+    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+    
+    try {
+      if (fs.existsSync(this._storagePath)) {
+        const data = JSON.parse(fs.readFileSync(this._storagePath, 'utf8'));
+        // 检查是否是今天的数据
+        if (data.date === today) {
+          console.log('[ContactStats] 从持久化存储恢复今日统计:', data);
+          return data;
+        }
+      }
+    } catch (e) {
+      console.log('[ContactStats] 加载统计数据失败:', e.message);
+    }
+    
+    // 返回新的空统计
+    return this._createEmptyStats(today);
+  }
+
+  /**
+   * 创建空统计数据
+   * @private
+   */
+  _createEmptyStats(date) {
+    return {
+      date: date,
+      newCustomers: 0,
+      lostCustomers: 0,
+      messagesSent: 0,
+      chatsCount: 0,
+      applications: 0
+    };
+  }
+
+  /**
+   * 保存统计数据到持久化存储
+   * @private
+   */
+  _saveStats() {
+    try {
+      const dir = path.dirname(this._storagePath);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      fs.writeFileSync(this._storagePath, JSON.stringify(this._todayStats, null, 2));
+    } catch (e) {
+      console.log('[ContactStats] 保存统计数据失败:', e.message);
+    }
   }
 
   /**
@@ -111,7 +169,8 @@ class ContactStats extends WeComSDK {
     
     // 检查是否需要重置（跨天）
     if (this._todayStats.date !== today) {
-      this._todayStats = this._initTodayStats();
+      this._todayStats = this._createEmptyStats(today);
+      this._saveStats(); // 保存新的空统计
     }
     
     switch (eventType) {
@@ -148,6 +207,9 @@ class ContactStats extends WeComSDK {
       default:
         break;
     }
+    
+    // 每次更新后保存到持久化存储
+    this._saveStats();
     
     return this._todayStats;
   }

@@ -13,6 +13,9 @@ const { getConfig } = require('./config.js');
 const CallbackModule = require('./src/modules/callback/index.js');
 const CallbackClass = CallbackModule.default || CallbackModule;
 
+// 导入统计模块
+const ContactStats = require('./src/modules/contact_stats/index.js');
+
 // 导入回调工具函数
 const { createCallbackHandler } = require('./src/callback-helper.js');
 
@@ -50,6 +53,13 @@ const plugin = {
     } else {
       console.log('[wecomtool] 配置不完整，跳过回调初始化');
     }
+    
+    // 初始化统计模块
+    let contactStats = null;
+    if (config.corpId && config.corpSecret) {
+      contactStats = new ContactStats(config);
+      console.log('[wecomtool] 统计模块已初始化');
+    }
 
     // 创建回调处理器
     callbackHandler = createCallbackHandler({
@@ -68,6 +78,20 @@ const plugin = {
             timestamp: Date.now(),
             mode: info.mode,
           });
+        }
+        
+        // 更新客户统计（从事件回调收集）
+        if (contactStats && message.Event) {
+          contactStats.updateTodayStats(message.Event, {
+            userId: message.UserID || message.FromUserName,
+            externalUserId: message.ExternalUserID || message.ExternalUserName,
+            state: message.State,
+          });
+          
+          // 记录统计日志
+          if (['add_external_contact', 'del_external_contact', 'change_external_contact'].includes(message.Event)) {
+            console.log(`[wecomtool] 客户统计: ${message.Event} - ${message.UserID || 'unknown'}`);
+          }
         }
         
         console.log(`[wecomtool] 事件: ${eventType} from ${fromUser}`);

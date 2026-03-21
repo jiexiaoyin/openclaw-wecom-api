@@ -86,6 +86,37 @@ class Callback extends EventEmitter {
     // 回调验证事件
     this.handlers['url_verification'] = 'handleUrlVerification';
     this.handlers['callback_verification'] = 'handleCallbackVerification';
+    
+    // ========== 客户联系回调（新增）==========
+    // 联系我相关
+    this.handlers['add_contact_way'] = 'handleAddContactWay';
+    this.handlers['del_contact_way'] = 'handleDelContactWay';
+    
+    // 入群方式相关
+    this.handlers['add_join_way'] = 'handleAddJoinWay';
+    this.handlers['del_join_way'] = 'handleDelJoinWay';
+    
+    // 客服消息相关
+    this.handlers['kf_msg_push'] = 'handleKfMsgPush';
+    this.handlers['kf_msg_send'] = 'handleKfMsgSend';
+    this.handlers['msg_dialogice_send'] = 'handleMsgDialogiceSend';
+    
+    // ========== 通讯录变更回调（新增）==========
+    this.handlers['change_member'] = 'handleChangeMember';
+    this.handlers['change_department'] = 'handleChangeDepartment';
+    this.handlers['change_tag'] = 'handleChangeTag';
+    
+    // ========== 会议回调（补充）==========
+    this.handlers['meeting_ended'] = 'handleMeetingEnded';
+    this.handlers['meetingParticipantJoin'] = 'handleMeetingParticipantJoin';
+    this.handlers['meetingParticipantLeave'] = 'handleMeetingParticipantLeave';
+    
+    // ========== 直播回调 ==========
+    this.handlers['living_status'] = 'handleLivingStatus';
+    
+    // ========== 微盘回调 ==========
+    this.handlers['change_psm'] = 'handleChangePsm';
+    this.handlers['change_disk'] = 'handleChangeDisk';
   }
 
   // ========== 消息验证 ==========
@@ -565,6 +596,152 @@ class Callback extends EventEmitter {
   async handleMeetingEnd(event, record) {
     console.log('[Callback] 会议结束:', event);
     this.emit('meeting:end', event, record);
+    return { handled: true };
+  }
+
+  // ========== 新增的回调处理器实现 ==========
+
+  /**
+   * 添加联系我
+   */
+  async handleAddContactWay(event, record) {
+    console.log('[Callback] 添加联系我:', event);
+    this.emit('contact_way:add', event, record);
+    return { handled: true };
+  }
+
+  /**
+   * 删除联系我
+   */
+  async handleDelContactWay(event, record) {
+    console.log('[Callback] 删除联系我:', event);
+    this.emit('contact_way:del', event, record);
+    return { handled: true };
+  }
+
+  /**
+   * 添加加入群聊方式
+   */
+  async handleAddJoinWay(event, record) {
+    console.log('[Callback] 添加加入群聊方式:', event);
+    this.emit('join_way:add', event, record);
+    return { handled: true };
+  }
+
+  /**
+   * 删除加入群聊方式
+   */
+  async handleDelJoinWay(event, record) {
+    console.log('[Callback] 删除加入群聊方式:', event);
+    this.emit('join_way:del', event, record);
+    return { handled: true };
+  }
+
+  /**
+   * 客服消息推送
+   */
+  async handleKfMsgPush(event, record) {
+    console.log('[Callback] 客服消息推送:', event);
+    this.emit('kf_msg:push', event, record);
+    return { handled: true };
+  }
+
+  /**
+   * 客服消息发送
+   */
+  async handleKfMsgSend(event, record) {
+    console.log('[Callback] 客服消息发送:', event);
+    this.emit('kf_msg:send', event, record);
+    return { handled: true };
+  }
+
+  /**
+   * 消息确认
+   */
+  async handleMsgDialogiceSend(event, record) {
+    console.log('[Callback] 消息确认:', event);
+    this.emit('msg:confirm', event, record);
+    return { handled: true };
+  }
+
+  /**
+   * 成员变更通知
+   */
+  async handleChangeMember(event, record) {
+    console.log('[Callback] 成员变更:', event);
+    this.emit('contact:member_change', event, record);
+    return { handled: true };
+  }
+
+  /**
+   * 部门变更通知
+   */
+  async handleChangeDepartment(event, record) {
+    console.log('[Callback] 部门变更:', event);
+    this.emit('contact:department_change', event, record);
+    return { handled: true };
+  }
+
+  /**
+   * 标签变更通知
+   */
+  async handleChangeTag(event, record) {
+    console.log('[Callback] 标签变更:', event);
+    this.emit('contact:tag_change', event, record);
+    return { handled: true };
+  }
+
+  /**
+   * 会议真正结束（历史记录生成后）
+   */
+  async handleMeetingEnded(event, record) {
+    console.log('[Callback] 会议结束(历史记录):', event);
+    this.emit('meeting:ended', event, record);
+    return { handled: true };
+  }
+
+  /**
+   * 参会成员加入
+   */
+  async handleMeetingParticipantJoin(event, record) {
+    console.log('[Callback] 参会成员加入:', event);
+    this.emit('meeting:participant_join', event, record);
+    return { handled: true };
+  }
+
+  /**
+   * 参会成员离开
+   */
+  async handleMeetingParticipantLeave(event, record) {
+    console.log('[Callback] 参会成员离开:', event);
+    this.emit('meeting:participant_leave', event, record);
+    return { handled: true };
+  }
+
+  /**
+   * 直播状态变更
+   */
+  async handleLivingStatus(event, record) {
+    console.log('[Callback] 直播状态变更:', event);
+    this.emit('living:status_change', event, record);
+    return { handled: true };
+  }
+
+  /**
+   * 微盘容量变更
+   */
+  async handleChangePsm(event, record) {
+    console.log('[Callback] 微盘容量变更:', event);
+    this.emit('disk:psm_change', event, record);
+    return { handled: true };
+  }
+
+  /**
+   * 微盘文件变更
+   */
+  async handleChangeDisk(event, record) {
+    console.log('[Callback] 微盘文件变更:', event);
+    this.emit('disk:file_change', event, record);
     return { handled: true };
   }
 

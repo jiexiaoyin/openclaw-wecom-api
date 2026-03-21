@@ -184,6 +184,78 @@ const stats = await contactStats.getUserClientStatSmart(
 contactStats.updateTodayStats('add_external_contact', { userId, externalUserId });
 ```
 
+## 支持的回调事件
+
+### 客户联系事件
+| 事件 | 说明 |
+|------|------|
+| `add_external_contact` | 添加客户 |
+| `del_external_contact` | 删除客户 |
+| `edit_external_contact` | 编辑客户 |
+| `change_external_contact` | 客户变更 |
+| `add_half_external_contact` | 添加半程客户 |
+| `del_follow_user` | 删除跟进成员 |
+| `transfer_fail` | 分配失败 |
+
+### 客户联系增强事件
+| 事件 | 说明 |
+|------|------|
+| `add_contact_way` | 添加联系我 |
+| `del_contact_way` | 删除联系我 |
+| `add_join_way` | 添加入群方式 |
+| `del_join_way` | 删除入群方式 |
+| `kf_msg_push` | 客服消息推送 |
+| `kf_msg_send` | 客服消息发送 |
+
+### 客户群事件
+| 事件 | 说明 |
+|------|------|
+| `create_chat` | 创建群聊 |
+| `update_chat` | 群聊变更 |
+| `dismiss_chat` | 群聊解散 |
+
+### 通讯录变更事件
+| 事件 | 说明 |
+|------|------|
+| `change_member` | 成员变更 |
+| `change_department` | 部门变更 |
+| `change_tag` | 标签变更 |
+
+### 会议事件
+| 事件 | 说明 |
+|------|------|
+| `meeting_start` | 会议开始 |
+| `meeting_end` | 会议结束 |
+| `meeting_created` | 会议创建 |
+| `meeting_cancelled` | 会议取消 |
+| `meetingParticipantJoin` | 成员加入会议 |
+| `meetingParticipantLeave` | 成员离开会议 |
+
+### 消息事件
+| 事件 | 说明 |
+|------|------|
+| `message` | 消息接收 |
+| `enter_agent` | 进入应用 |
+| `user_click` | 菜单点击 |
+| `view` | 链接访问 |
+
+### 审批事件
+| 事件 | 说明 |
+|------|------|
+| `submit_approval` | 提交审批 |
+| `Approval` | 审批通过 |
+
+### 打卡事件
+| 事件 | 说明 |
+|------|------|
+| `checkin` | 打卡事件 |
+| `report_checkin` | 打卡数据 |
+
+### 直播事件
+| 事件 | 说明 |
+|------|------|
+| `living_status` | 直播状态变更 |
+
 ## 文件结构
 
 ```
