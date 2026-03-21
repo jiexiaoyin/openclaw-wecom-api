@@ -218,7 +218,34 @@ class ContactStats extends WeComSDK {
 
     const users = addressBookCache.getUsers();
     const userIds = users.map(u => u.userid);
-    return this.getUserClientStatByList(userIds, startDate, endDate, addressBookCache);
+    const result = await this.getUserClientStatByList(userIds, startDate, endDate, addressBookCache);
+    
+    // 添加汇总数据
+    result.summary = {
+      totalUsers: userIds.length,
+      successCount: result.success.length,
+      failedCount: result.failed.length,
+      notFoundCount: result.notFound?.length || 0,
+      totalNewContact: 0,
+      totalNewApply: 0,
+      totalChat: 0,
+      totalMessage: 0,
+      totalNegative: 0
+    };
+    
+    // 累加统计数据
+    for (const item of result.success) {
+      if (item.result?.behavior_data?.length > 0) {
+        const d = item.result.behavior_data[0];
+        result.summary.totalNewContact += d.new_contact_cnt || 0;
+        result.summary.totalNewApply += d.new_apply_cnt || 0;
+        result.summary.totalChat += d.chat_cnt || 0;
+        result.summary.totalMessage += d.message_cnt || 0;
+        result.summary.totalNegative += d.negative_feedback_cnt || 0;
+      }
+    }
+    
+    return result;
   }
 
   /**
