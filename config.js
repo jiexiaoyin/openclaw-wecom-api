@@ -56,13 +56,16 @@ function createWecom(overrideConfig = {}) {
 }
 
 /**
- * 获取配置
+ * 获取配置（完整版，供插件使用）
  */
 function getConfig() {
   return {
     ...fileConfig,
     corpId: process.env.WECOM_CORP_ID || fileConfig.corpId,
+    corpSecret: process.env.WECOM_CORP_SECRET || fileConfig.corpSecret,
     agentId: process.env.WECOM_AGENT_ID || fileConfig.agentId,
+    token: process.env.WECOM_TOKEN || fileConfig.token,
+    encodingAESKey: process.env.WECOM_ENCODING_AES_KEY || fileConfig.encodingAESKey,
   };
 }
 

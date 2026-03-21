@@ -81,7 +81,8 @@ git clone https://github.com/jiexiaoyin/wecomtool.git /root/.openclaw/extensions
 # 按提示填写企业ID、Secret、AgentID等
 
 # 方式二：手动编辑
-vim /root/.openclaw/extensions/wecomtool/config.json
+cp config.example.json config.json
+vim config.json
 
 # 3. 重启
 openclaw gateway restart

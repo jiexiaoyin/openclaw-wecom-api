@@ -1,0 +1,7 @@
+{
+  "corpId": "YOUR_CORP_ID",
+  "corpSecret": "YOUR_CORP_SECRET",
+  "agentId": "YOUR_AGENT_ID",
+  "token": "",
+  "encodingAESKey": ""
+}

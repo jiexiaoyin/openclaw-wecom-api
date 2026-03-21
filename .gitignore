@@ -4,6 +4,7 @@ config.local.json
 *.local.json
 config.production.json
 config.json
+!config.example.json
 
 # 日志
 logs/
