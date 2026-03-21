@@ -18,7 +18,7 @@ class App extends WeComSDK {
    * @param {number} agentId 应用 id
    */
   async getAgent(agentId) {
-    return this.post('/agent/get', { agentid: agentId });
+    return this.get('/agent/get', { agentid: agentId });
   }
 
   /**
@@ -43,7 +43,7 @@ class App extends WeComSDK {
    * 获取应用列表
    */
   async getAgentList() {
-    return this.post('/agent/list', {});
+    return this.get('/agent/list', {});
   }
 
   // ========== 自定义菜单 ==========
@@ -65,7 +65,7 @@ class App extends WeComSDK {
    * @param {number} agentId 应用 id
    */
   async getMenu(agentId) {
-    return this.post('/menu/get', { agentid: agentId });
+    return this.get('/menu/get', { agentid: agentId });
   }
 
   /**
