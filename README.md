@@ -289,6 +289,11 @@ openclaw gateway restart
 
 ## 常见问题
 
+**审批 API 查询失败？**
+- 企业微信审批 API 必须通过 `template_id` 查询审批单
+- `template_id` 获取方式：企业微信后台 → 应用管理 → 审批 → 查看模板ID
+- 模板配置文件：`config/approval-templates.json`（本地私有，不同步 GitHub）
+
 **回调验证失败？**
 - 确认 Token 与企业微信后台一致
 - 确认域名已解析到服务器

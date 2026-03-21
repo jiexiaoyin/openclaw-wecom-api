@@ -1,0 +1,11 @@
+{
+  "_meta": {
+    "description": "企业微信审批模板ID配置示例",
+    "usage": "调用审批相关 API 时，必须通过 template_id 查询审批单号、审批单详情等",
+    "note": "template_id 获取方式：企业微信后台 → 应用管理 → 审批 → 查看模板ID",
+    "important": "实际使用时需要替换为真实的 template_id"
+  },
+  "分组名称": [
+    { "name": "模板名称", "template_id": "替换为真实的 template_id" }
+  ]
+}
