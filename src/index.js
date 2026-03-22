@@ -36,6 +36,7 @@ const CheckInRules = require('./modules/checkin_rules');
 const School = require('./modules/school');
 const OpenChat = require('./modules/openchat');
 const Callback = require('./modules/callback');
+const Permission = require('./core/permission');
 
 class WeComPlugin {
   constructor(config) {
@@ -90,6 +91,9 @@ class WeComPlugin {
     
     // 回调处理（非 API 模块，直接实例化）
     this.callback = new Callback(config);
+    
+    // 权限控制（依赖 addressbook 模块）
+    this.permission = new Permission(config, this.addressbook);
   }
 
   getConfig() {
@@ -113,6 +117,80 @@ class WeComPlugin {
       'thirdparty', 'moments', 'oceanengine', 'messenger', 'contactstats', 'sensitive', 
       'checkinrules', 'school', 'openchat'
     ];
+  }
+
+  // ========== 权限控制 ==========
+
+  /**
+   * 获取用户角色
+   * @param {string} userId 用户ID
+   * @returns {Promise<string>} 角色名
+   */
+  async getUserRole(userId) {
+    return this.permission.getUserRole(userId);
+  }
+
+  /**
+   * 检查用户是否有权限
+   * @param {string} userId 用户ID
+   * @param {string} module 模块名
+   * @param {string} action 操作名
+   * @returns {Promise<boolean>}
+   */
+  async checkPermission(userId, module, action) {
+    return this.permission.checkPermission(userId, module, action);
+  }
+
+  /**
+   * 权限检查，失败则抛出异常
+   * @param {string} userId 用户ID
+   * @param {string} module 模块名
+   * @param {string} action 操作名
+   */
+  async requirePermission(userId, module, action) {
+    return this.permission.requirePermission(userId, module, action);
+  }
+
+  /**
+   * 获取用户数据权限范围
+   * @param {string} userId 用户ID
+   * @param {string} module 模块名
+   * @returns {Promise<Object>}
+   */
+  async getDataScope(userId, module) {
+    return this.permission.getDataScope(userId, module);
+  }
+
+  /**
+   * 根据权限过滤数据
+   * @param {Array} data 数据列表
+   * @param {string} userId 用户ID
+   * @param {string} dataField 数据字段名
+   * @returns {Promise<Array>}
+   */
+  async filterData(data, userId, dataField) {
+    return this.permission.filterData(data, userId, dataField);
+  }
+
+  /**
+   * 获取权限矩阵
+   */
+  getPermissionMatrix() {
+    return this.permission.getPermissionMatrix();
+  }
+
+  /**
+   * 获取角色定义
+   */
+  static getRoles() {
+    return Permission.getRoles();
+  }
+
+  /**
+   * 清除权限缓存
+   */
+  clearPermissionCache() {
+    this.permission.clearCache();
   }
 }
 

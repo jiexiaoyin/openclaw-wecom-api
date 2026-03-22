@@ -17,6 +17,7 @@
 const crypto = require('crypto');
 const xml2js = require('xml2js');
 const EventEmitter = require('events');
+const { verifyWecomSignature, decryptWecomEncrypted, encryptWecomPlaintext } = require('../../crypto');
 
 class Callback extends EventEmitter {
   constructor(config) {
@@ -25,6 +26,7 @@ class Callback extends EventEmitter {
     this.encodingAESKey = config.encodingAESKey || '';
     this.corpId = config.corpId || '';
     this.agentId = config.agentId || '';
+    this.callbackMode = config.callbackMode || 'shared';  // shared 或 independent
     
     // 事件记录存储
     this.eventHistory = [];
@@ -146,42 +148,32 @@ class Callback extends EventEmitter {
    * @param {string} encrypt 加密内容
    */
   verifyMessage(msgSignature, timestamp, nonce, encrypt) {
-    const signature = this.getSignature(timestamp, nonce, encrypt);
-    return signature === msgSignature;
+    console.log('[wecomtool] verifyMessage params:', {
+      token: this.token,
+      timestamp,
+      nonce,
+      encrypt: encrypt ? encrypt.substring(0, 50) + '...' : null,
+      signature: msgSignature ? msgSignature.substring(0, 50) + '...' : null
+    });
+    const result = verifyWecomSignature({
+      token: this.token,
+      timestamp,
+      nonce,
+      encrypt,
+      signature: msgSignature
+    });
+    console.log('[wecomtool] verifyMessage result:', result);
+    return result;
   }
 
   // ========== 消息解密 ==========
 
   decrypt(encrypt) {
     try {
-      const aesKey = Buffer.from(this.encodingAESKey + '=', 'base64');
-      const decipher = crypto.createDecipheriv('aes-256-cbc', aesKey, aesKey.slice(0, 16));
-      decipher.setAutoPadding(false);  // 关键：禁用自动填充，手动处理 PKCS#7
-      
-      let decryptedPadded = Buffer.concat([
-        decipher.update(encrypt, 'base64'),
-        decipher.final()
-      ]);
-
-      // WeCom uses PKCS#7 with block size 32 (not 16 which is standard AES)
-      const WECOM_PKCS7_BLOCK_SIZE = 32;
-      const pad = decryptedPadded[decryptedPadded.length - 1];
-      if (pad < 1 || pad > WECOM_PKCS7_BLOCK_SIZE) {
-        throw new Error('invalid pkcs7 padding');
-      }
-      const decrypted = decryptedPadded.subarray(0, decryptedPadded.length - pad);
-
-      // 去除前 20 字节 (random 16 bytes + msgLen 4 bytes)
-      const msgLen = decrypted.readUInt32BE(16);
-      const msgStart = 20;
-      const msgEnd = msgStart + msgLen;
-      
-      if (msgEnd > decrypted.length) {
-        throw new Error('invalid decrypted msg length');
-      }
-      
-      const result = decrypted.subarray(msgStart, msgEnd).toString('utf8');
-      return result;
+      return decryptWecomEncrypted({
+        encodingAESKey: this.encodingAESKey,
+        encrypt
+      });
     } catch (e) {
       throw new Error('解密失败: ' + e.message);
     }
@@ -195,18 +187,11 @@ class Callback extends EventEmitter {
    */
   encrypt(content, replyNonce, timestamp) {
     try {
-      const randomStr = this.generateRandomStr(16);
-      const text = Buffer.from(content, 'utf8');
-      const pad = 32 - (text.length % 32);
-      const padding = Buffer.alloc(pad, pad);
-      
-      const raw = Buffer.concat([randomStr, this.intToBuffer(text.length), text, padding, Buffer.from(this.corpId, 'utf8')]);
-      
-      const aesKey = Buffer.from(this.encodingAESKey + '=', 'base64');
-      const cipher = crypto.createCipheriv('aes-256-cbc', aesKey, aesKey.slice(0, 16));
-      
-      let encrypted = cipher.update(raw, null, 'base64');
-      encrypted += cipher.final('base64');
+      const encrypted = encryptWecomPlaintext({
+        encodingAESKey: this.encodingAESKey,
+        receiveId: this.corpId,
+        plaintext: content
+      });
 
       const signature = this.getSignature(timestamp, replyNonce, encrypted);
 
@@ -239,33 +224,35 @@ class Callback extends EventEmitter {
    */
   async parseMessage(xmlContent) {
     const xml = await this.parseXML(xmlContent);
+    console.log('[wecomtool] parseMessage xml keys:', Object.keys(xml));
+    console.log('[wecomtool] parseMessage xml:', JSON.stringify(xml).substring(0, 500));
     
     const message = {
-      toUserName: xml.ToUserName,
-      fromUserName: xml.FromUserName,
-      createTime: parseInt(xml.CreateTime),
-      msgType: xml.MsgType,
-      content: xml.Content,
-      msgId: xml.MsgId,
-      event: xml.Event,
-      eventKey: xml.EventKey,
-      agentID: xml.AgentID,
+      ToUserName: xml.ToUserName,
+      FromUserName: xml.FromUserName,
+      CreateTime: parseInt(xml.CreateTime),
+      MsgType: xml.MsgType,
+      Content: xml.Content,
+      MsgId: xml.MsgId,
+      Event: xml.Event,
+      EventKey: xml.EventKey,
+      AgentID: xml.AgentID,
       // 媒体相关
-      mediaId: xml.MediaId,
-      picUrl: xml.PicUrl,
-      format: xml.Format,
-      thumbMediaId: xml.ThumbMediaId,
+      MediaId: xml.MediaId,
+      PicUrl: xml.PicUrl,
+      Format: xml.Format,
+      ThumbMediaId: xml.ThumbMediaId,
       // 位置相关
-      locationX: xml.Location_X,
-      locationY: xml.Location_Y,
-      scale: xml.Scale,
-      label: xml.Label,
+      Location_X: xml.Location_X,
+      Location_Y: xml.Location_Y,
+      Scale: xml.Scale,
+      Label: xml.Label,
       // 链接相关
-      title: xml.Title,
-      description: xml.Description,
-      url: xml.Url,
+      Title: xml.Title,
+      Description: xml.Description,
+      Url: xml.Url,
       // 加密消息
-      encrypt: xml.Encrypt
+      Encrypt: xml.Encrypt
     };
 
     return message;
@@ -335,10 +322,16 @@ class Callback extends EventEmitter {
     console.log('[wecomtool] parsed xml Encrypt length:', xml.Encrypt ? xml.Encrypt.length : 'null');
     const encrypt = xml.Encrypt;
     
-    // 验证签名
-    console.log('[wecomtool] verifying signature...');
-    if (!this.verifyMessage(msgSignature, timestamp, nonce, encrypt)) {
-      throw new Error('签名验证失败');
+    // 根据模式决定是否验证签名
+    if (this.callbackMode === 'shared') {
+      // shared 模式：wecom 已验证过签名，跳过
+      console.log('[wecomtool] 跳过签名验证（shared 模式，由 wecom 统一验证）');
+    } else {
+      // independent 模式：必须验证签名
+      console.log('[wecomtool] 验证签名（independent 模式）');
+      if (!this.verifyMessage(msgSignature, timestamp, nonce, encrypt)) {
+        throw new Error('签名验证失败');
+      }
     }
     
     // 解密消息
@@ -348,22 +341,22 @@ class Callback extends EventEmitter {
     
     // 记录事件
     const eventRecord = this._recordEvent({
-      type: message.event || message.msgType,
-      msgType: message.msgType,
-      fromUserName: message.fromUserName,
-      createTime: message.createTime,
-      event: message.event,
-      eventKey: message.eventKey,
-      agentID: message.agentID,
+      type: message.Event || message.MsgType,
+      msgType: message.MsgType,
+      fromUserName: message.FromUserName,
+      createTime: message.CreateTime,
+      event: message.Event,
+      eventKey: message.EventKey,
+      agentID: message.AgentID,
       raw: message,
       timestamp: Date.now()
     });
     
     // 触发事件
-    this.emit(message.event || message.msgType, message, eventRecord);
+    this.emit(message.Event || message.MsgType, message, eventRecord);
     
     // 调用对应处理器
-    const handlerName = this.handlers[message.event || message.msgType];
+    const handlerName = this.handlers[message.Event || message.MsgType];
     if (handlerName && typeof this[handlerName] === 'function') {
       await this[handlerName](message, eventRecord);
     }
@@ -371,7 +364,8 @@ class Callback extends EventEmitter {
     // 返回成功响应
     return {
       type: 'success',
-      body: 'success'
+      body: 'success',
+      message: message  // 返回解析后的消息对象
     };
   }
 

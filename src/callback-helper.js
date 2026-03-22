@@ -129,7 +129,7 @@ function createCallbackHandler(options = {}) {
             xmlBody: body,
           });
           console.log('[callback-helper] → 解密成功');
-          message = result;
+          message = result.message;
         } catch (decryptError) {
           // 解密失败，优雅处理
           console.log('[callback-helper] → 解密失败:', decryptError.message);

@@ -6,6 +6,9 @@ config.production.json
 config.json
 !config.example.json
 
+# 本地配置目录
+config/
+
 # 日志
 logs/
 *.log
