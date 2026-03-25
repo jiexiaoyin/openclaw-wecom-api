@@ -80,6 +80,7 @@ class Callback extends EventEmitter {
     
     // 审批事件
     this.handlers['submit_approval'] = 'handleSubmitApproval';
+    this.handlers['sys_approval_change'] = 'handleSysApprovalChange';
     this.handlers['Approval'] = 'handleApproval';
     
     // 打卡事件
