@@ -234,34 +234,6 @@ async function executeAction(action, params) {
   try {
     switch (action) {
 
-      // ========== 消息发送 ==========
-      case 'send_message':
-        return await wecom.message.sendText(args.userId, args.content, args.agentId);
-
-      case 'send_text':
-        return await wecom.message.sendText(args.toUser, args.content, args.agentId);
-
-      case 'send_text_card':
-        return await wecom.message.sendTextCard(args.toUser, args.title, args.content, args.agentId);
-
-      case 'send_markdown':
-        return await wecom.message.sendMarkdown(args.toUser, args.content, args.agentId);
-
-      case 'send_template_card':
-        return await wecom.message.sendTemplateCard(args.toUser, args.templateCard, args.agentId);
-
-      case 'send_image':
-        return await wecom.message.sendImage(args.toUser, args.mediaId, args.agentId);
-
-      case 'send_file':
-        return await wecom.message.sendFile(args.toUser, args.mediaId, args.agentId);
-
-      case 'send_video':
-        return await wecom.message.sendVideo(args.toUser, args.mediaId, args.agentId);
-
-      case 'send_news':
-        return await wecom.message.sendNews(args.toUser, args.articles, args.agentId);
-
       // ========== 客户联系 ==========
       case 'get_customer_list':
         return await wecom.contact.getCustomerList(args.userId, args.cursor);
