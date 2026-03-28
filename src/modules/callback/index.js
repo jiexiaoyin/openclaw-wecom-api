@@ -1,14 +1,14 @@
 /**
  * 回调处理模块
  * 企业微信回调消息处理框架
- * 
- * 功能：
+ *
+ * 功能:
  * 1. 统一回调入口 - 处理所有企业微信回调事件
  * 2. 事件记录 - 自动记录所有回调事件
  * 3. 事件分发 - 根据事件类型自动调用对应处理器
  * 4. 响应生成 - 自动生成响应消息
- * 
- * 使用方式：
+ *
+ * 使用方式:
  * const callback = new Callback(config);
  * callback.on('change_contact', async (event) => { ... });
  * callback.handle(req, res);
@@ -27,31 +27,31 @@ class Callback extends EventEmitter {
     this.encodingAESKey = config.encodingAESKey || '';
     this.corpId = config.corpId || '';
     this.agentId = config.agentId || '';
-    
+
     // 事件记录存储
     this.eventHistory = [];
     this.maxHistorySize = config.maxHistorySize || 1000;
-    
+
     // 事件处理器映射
     this.handlers = {};
 
-    // 审批模块（用于获取审批详情）
+    // 审批模块(用于获取审批详情)
     this.approval = new Approval(config);
-    
+
     // 初始化默认处理器
     this._initDefaultHandlers();
-    
+
     // 加载已有事件历史
     this.loadEventHistory();
   }
 
   // ========== 初始化默认处理器 ==========
-  
+
   _initDefaultHandlers() {
     // 通讯录事件
     this.handlers['change_contact'] = 'handleContactChange';
     this.handlers['change_external_contact'] = 'handleExternalContactChange';
-    
+
     // 客户联系事件
     this.handlers['add_external_contact'] = 'handleAddExternalContact';
     this.handlers['del_external_contact'] = 'handleDelExternalContact';
@@ -59,70 +59,58 @@ class Callback extends EventEmitter {
     this.handlers['add_half_external_contact'] = 'handleAddHalfExternalContact';
     this.handlers['del_follow_user'] = 'handleDelFollowUser';
     this.handlers['transfer_fail'] = 'handleTransferFail';
-    
+
     // 客户群事件
     this.handlers['create_chat'] = 'handleCreateChat';
     this.handlers['update_chat'] = 'handleUpdateChat';
     this.handlers['dismiss_chat'] = 'handleDismissChat';
-    
-    // 消息事件
-    this.handlers['user_click'] = 'handleUserClick';
-    this.handlers['view'] = 'handleUserView';
-    this.handlers['scancode_push'] = 'handleScanCodePush';
-    this.handlers['scancode_waitmsg'] = 'handleScanCodeWaitMsg';
-    this.handlers['pic_sysphoto'] = 'handlePicSysPhoto';
-    this.handlers['pic_photo_or_album'] = 'handlePicPhotoOrAlbum';
-    this.handlers['pic_weixin'] = 'handlePicWeixin';
-    this.handlers['location_select'] = 'handleLocationSelect';
-    this.handlers['enter_agent'] = 'handleEnterAgent';
-    this.handlers['message'] = 'handleMessage';
-    
+
     // 审批事件
     this.handlers['submit_approval'] = 'handleSubmitApproval';
     this.handlers['sys_approval_change'] = 'handleSysApprovalChange';
     this.handlers['Approval'] = 'handleApproval';
-    
+
     // 打卡事件
     this.handlers['checkin'] = 'handleCheckin';
     this.handlers['report_checkin'] = 'handleReportCheckin';
-    
+
     // 会议事件
     this.handlers['meeting_start'] = 'handleMeetingStart';
     this.handlers['meeting_end'] = 'handleMeetingEnd';
     this.handlers['meeting_created'] = 'handleMeetingCreated';
     this.handlers['meeting_cancelled'] = 'handleMeetingCancelled';
-    
+
     // 回调验证事件
     this.handlers['url_verification'] = 'handleUrlVerification';
     this.handlers['callback_verification'] = 'handleCallbackVerification';
-    
-    // ========== 客户联系回调（新增）==========
+
+    // ========== 客户联系回调(新增)==========
     // 联系我相关
     this.handlers['add_contact_way'] = 'handleAddContactWay';
     this.handlers['del_contact_way'] = 'handleDelContactWay';
-    
+
     // 入群方式相关
     this.handlers['add_join_way'] = 'handleAddJoinWay';
     this.handlers['del_join_way'] = 'handleDelJoinWay';
-    
+
     // 客服消息相关
     this.handlers['kf_msg_push'] = 'handleKfMsgPush';
     this.handlers['kf_msg_send'] = 'handleKfMsgSend';
     this.handlers['msg_dialogice_send'] = 'handleMsgDialogiceSend';
-    
-    // ========== 通讯录变更回调（新增）==========
+
+    // ========== 通讯录变更回调(新增)==========
     this.handlers['change_member'] = 'handleChangeMember';
     this.handlers['change_department'] = 'handleChangeDepartment';
     this.handlers['change_tag'] = 'handleChangeTag';
-    
-    // ========== 会议回调（补充）==========
+
+    // ========== 会议回调(补充)==========
     this.handlers['meeting_ended'] = 'handleMeetingEnded';
     this.handlers['meetingParticipantJoin'] = 'handleMeetingParticipantJoin';
     this.handlers['meetingParticipantLeave'] = 'handleMeetingParticipantLeave';
-    
+
     // ========== 直播回调 ==========
     this.handlers['living_status'] = 'handleLivingStatus';
-    
+
     // ========== 微盘回调 ==========
     this.handlers['change_psm'] = 'handleChangePsm';
     this.handlers['change_disk'] = 'handleChangeDisk';
@@ -131,7 +119,7 @@ class Callback extends EventEmitter {
   // ========== 消息验证 ==========
 
   /**
-   * 验证 URL（用于首次配置回调）
+   * 验证 URL(用于首次配置回调)
    * @param {string} msgSignature 签名
    * @param {string} timestamp 时间戳
    * @param {string} nonce 随机字符串
@@ -233,7 +221,7 @@ class Callback extends EventEmitter {
     const xml = await this.parseXML(xmlContent);
     console.log('[wecom-api] parseMessage xml keys:', Object.keys(xml));
     console.log('[wecom-api] parseMessage xml:', JSON.stringify(xml).substring(0, 500));
-    
+
     const message = {
       ToUserName: xml.ToUserName,
       FromUserName: xml.FromUserName,
@@ -271,28 +259,28 @@ class Callback extends EventEmitter {
   // ========== 统一回调入口 ==========
 
   /**
-   * 处理企业微信回调请求（统一入口）
+   * 处理企业微信回调请求(统一入口)
    * @param {object} params 请求参数
    * @param {string} params.msgSignature 签名
    * @param {string} params.timestamp 时间戳
    * @param {string} params.nonce 随机字符串
-   * @param {string} params.echostr 加密字符串（验证URL时）
+   * @param {string} params.echostr 加密字符串(验证URL时)
    * @param {string} params.xmlBody XML请求体
    * @returns {Promise<object>} 处理结果
    */
   async handle(params) {
     const { msgSignature, timestamp, nonce, echostr, xmlBody } = params;
-    
-    // URL验证模式（首次配置回调）
+
+    // URL验证模式(首次配置回调)
     if (echostr) {
       return this._handleUrlVerification(msgSignature, timestamp, nonce, echostr);
     }
-    
+
     // 消息处理模式
     if (xmlBody) {
       return this._handleMessage(msgSignature, timestamp, nonce, xmlBody);
     }
-    
+
     throw new Error('缺少必要参数');
   }
 
@@ -301,7 +289,7 @@ class Callback extends EventEmitter {
    */
   async _handleUrlVerification(msgSignature, timestamp, nonce, echostr) {
     const result = this.verifyURL(msgSignature, timestamp, nonce, echostr);
-    
+
     if (result.success) {
       // 记录事件
       this._recordEvent({
@@ -309,13 +297,13 @@ class Callback extends EventEmitter {
         success: true,
         timestamp: Date.now()
       });
-      
+
       return {
         type: 'success',
         body: result.echostr
       };
     }
-    
+
     return {
       type: 'error',
       message: result.message
@@ -324,28 +312,30 @@ class Callback extends EventEmitter {
 
   /**
    * 处理消息事件
+   * 注意：消息类事件（text/image/voice等）由 @sunnoy/wecom 统一处理
+   * 这里只处理事件类消息（有 Event 字段）
    */
   async _handleMessage(msgSignature, timestamp, nonce, xmlBody) {
-    console.log('[wecom-api] _handleMessage called');
-    console.log('[wecom-api] xmlBody preview:', xmlBody ? xmlBody.substring(0, 300) : 'missing');
     const xml = await this.parseXML(xmlBody);
-    console.log('[wecom-api] parsed xml Encrypt length:', xml.Encrypt ? xml.Encrypt.length : 'null');
     const encrypt = xml.Encrypt;
-    
+
     // 验证签名
-    console.log('[wecom-api] 验证签名');
     if (!this.verifyMessage(msgSignature, timestamp, nonce, encrypt)) {
       throw new Error('签名验证失败');
     }
-    
+
     // 解密消息
-    console.log('[wecom-api] decrypting...');
     const decryptedXml = this.decrypt(encrypt);
     const message = await this.parseMessage(decryptedXml);
-    
+
+    // 非事件消息（text/image/voice等）由 @sunnoy/wecom 处理，直接返回成功
+    if (!message.Event) {
+      return { type: 'success', body: 'success' };
+    }
+
     // 记录事件
     const eventRecord = this._recordEvent({
-      type: message.Event || message.MsgType,
+      type: message.Event,
       msgType: message.MsgType,
       fromUserName: message.FromUserName,
       createTime: message.CreateTime,
@@ -355,22 +345,17 @@ class Callback extends EventEmitter {
       raw: message,
       timestamp: Date.now()
     });
-    
+
     // 触发事件
-    this.emit(message.Event || message.MsgType, message, eventRecord);
-    
+    this.emit(message.Event, message, eventRecord);
+
     // 调用对应处理器
-    const handlerName = this.handlers[message.Event || message.MsgType];
+    const handlerName = this.handlers[message.Event];
     if (handlerName && typeof this[handlerName] === 'function') {
       await this[handlerName](message, eventRecord);
     }
-    
-    // 返回成功响应
-    return {
-      type: 'success',
-      body: 'success',
-      message: message  // 返回解析后的消息对象
-    };
+
+    return { type: 'success', body: 'success', message };
   }
 
   // ========== 事件记录 ==========
@@ -385,21 +370,21 @@ class Callback extends EventEmitter {
       ...event,
       timestamp: event.timestamp || Date.now()
     };
-    
+
     this.eventHistory.unshift(record);
-    
+
     // 限制历史记录数量
     if (this.eventHistory.length > this.maxHistorySize) {
       this.eventHistory.pop();
     }
-    
+
     // 根据类型分别保存到不同文件
     if (record.type === 'text' || record.msgType === 'text') {
       this._appendToFile('message_history.jsonl', record);
     } else {
       this._appendToFile('event_history.jsonl', record);
     }
-    
+
     return record;
   }
 
@@ -412,13 +397,13 @@ class Callback extends EventEmitter {
    */
   getEventHistory(options = {}) {
     let { type, limit = 100, offset = 0 } = options;
-    
+
     let history = this.eventHistory;
-    
+
     if (type) {
       history = history.filter(e => e.type === type);
     }
-    
+
     return history.slice(offset, offset + limit);
   }
 
@@ -469,8 +454,8 @@ class Callback extends EventEmitter {
   }
 
   /**
-   * 加载事件历史（兼容旧数组格式 + 新增追加格式）
-   * 文本消息从 message_history.jsonl 加载，事件从 event_history.jsonl 加载
+   * 加载事件历史(兼容旧数组格式 + 新增追加格式)
+   * 文本消息从 message_history.jsonl 加载,事件从 event_history.jsonl 加载
    */
   loadEventHistory() {
     try {
@@ -478,12 +463,12 @@ class Callback extends EventEmitter {
       const path = require('path');
       const dataDir = '/root/.openclaw/extensions/wecom-api/data';
       const records = [];
-      
+
       const files = ['event_history.jsonl', 'message_history.jsonl'];
-      
+
       for (const filename of files) {
         const filePath = path.join(dataDir, filename);
-        
+
         if (!fs.existsSync(filePath)) {
           // 尝试旧格式数组文件
           const oldPath = path.join(dataDir, 'event_history.jsonl');
@@ -497,17 +482,17 @@ class Callback extends EventEmitter {
           }
           continue;
         }
-        
+
         const raw = fs.readFileSync(filePath, 'utf8').trim();
         if (!raw) continue;
-        
+
         const fileRecords = raw.split('\n')
           .filter(line => line.trim())
           .map(line => JSON.parse(line));
         records.push(...fileRecords);
         console.log('[wecom-api] 加载', filename, ':', fileRecords.length, '条');
       }
-      
+
       // 按时间倒序
       records.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
       this.eventHistory = records.slice(0, this.maxHistorySize);
@@ -518,34 +503,34 @@ class Callback extends EventEmitter {
   }
 
   /**
-   * 加载事件历史从文件（兼容旧数组格式 + 新追加格式）
+   * 加载事件历史从文件(兼容旧数组格式 + 新追加格式)
    */
   loadEventHistory() {
     try {
       const fs = require('fs');
       const path = require('path');
       const filePath = '/root/.openclaw/extensions/wecom-api/data/event_history.jsonl';
-      
+
       if (!fs.existsSync(filePath)) {
         return;
       }
-      
+
       const raw = fs.readFileSync(filePath, 'utf8').trim();
       if (!raw) {
         return;
       }
-      
-      // 兼容旧格式（JSON 数组）
+
+      // 兼容旧格式(JSON 数组)
       if (raw.startsWith('[')) {
         this.eventHistory = JSON.parse(raw);
       } else {
-        // 新格式：每行一个 JSON 对象
+        // 新格式:每行一个 JSON 对象
         this.eventHistory = raw.split('\n')
           .filter(line => line.trim())
           .map(line => JSON.parse(line))
-          .reverse(); // reverse 让最新的在前面（与 unshift 一致）
+          .reverse(); // reverse 让最新的在前面(与 unshift 一致)
       }
-      
+
       console.log('[wecom-api] 已加载事件历史:', this.eventHistory.length, '条');
     } catch (e) {
       console.log('[wecom-api] 加载事件历史失败:', e.message);
@@ -558,7 +543,7 @@ class Callback extends EventEmitter {
    * 通讯录变更事件
    */
   /**
-   * 通讯录变更事件（通用）
+   * 通讯录变更事件(通用)
    * 关键字段: ChangeType(1=新增 2=更新 3=删除), UserID, Name, Department
    */
   async handleContactChange(event, record) {
@@ -714,30 +699,8 @@ class Callback extends EventEmitter {
   /**
    * 用户点击菜单
    */
-  async handleUserClick(event, record) {
-    console.log('[Callback] 用户点击:', event);
-    this.emit('menu:click', event, record);
-    return { handled: true };
-  }
-
   /**
-   * 用户点击链接
-   */
-  async handleUserView(event, record) {
-    console.log('[Callback] 用户点击链接:', event);
-    return { handled: true };
-  }
-
-  /**
-   * 扫码事件
-   */
-  async handleScanCodePush(event, record) {
-    console.log('[Callback] 扫码:', event);
-    return { handled: true };
-  }
-
-  /**
-   * 审批事件（提交）
+   * 审批事件(提交)
    */
   /**
    * 审批提交事件
@@ -763,7 +726,7 @@ class Callback extends EventEmitter {
   }
 
   /**
-   * 审批变更事件（官方 key: sys_approval_change）
+   * 审批变更事件(官方 key: sys_approval_change)
    * 关键字段: ApprovalId, SpStatus, OpenSpid
    */
   async handleSysApprovalChange(event, record) {
@@ -781,7 +744,7 @@ class Callback extends EventEmitter {
   }
 
   /**
-   * 审批通过/变更事件（兼容旧 key: Approval）
+   * 审批通过/变更事件(兼容旧 key: Approval)
    */
   async handleApproval(event, record) {
     const approvalId = event.ApprovalId || event.approval_id || '';
@@ -829,7 +792,7 @@ class Callback extends EventEmitter {
       const spNoList = idListRes?.sp_no_list || [];
 
       if (spNoList.length === 0) {
-        console.log('[Callback] 未找到审批单（' + trigger + '）');
+        console.log('[Callback] 未找到审批单(' + trigger + ')');
         return;
       }
 
@@ -1038,7 +1001,7 @@ class Callback extends EventEmitter {
 
 
   /**
-   * 会议真正结束（历史记录生成后）
+   * 会议真正结束(历史记录生成后)
    */
   async handleMeetingEnded(event, record) {
     console.log('[Callback] 会议结束(历史记录):', event);
@@ -1130,7 +1093,7 @@ class Callback extends EventEmitter {
    */
   _buildReply(toUser, fromUser, msgType, content) {
     let contentXml = '';
-    
+
     switch (msgType) {
       case 'text':
         contentXml = `<Content><![CDATA[${content.content}]]></Content>`;

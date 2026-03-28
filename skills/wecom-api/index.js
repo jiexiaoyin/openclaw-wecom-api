@@ -423,19 +423,6 @@ async function executeAction(action, params) {
       case 'add_event_attendees':
         return await wecom.schedule.addEventAttendees(args.scheduleId, args.attendees);
 
-      // ========== 素材 ==========
-      case 'upload_image':
-        return await wecom.media.uploadImage(args.filePath);
-
-      case 'upload_media':
-        return await wecom.media.uploadMedia(args.filePath, args.type);
-
-      case 'get_media':
-        return await wecom.media.getMedia(args.mediaId, args.savePath);
-
-      case 'get_high_definition_voice':
-        return await wecom.media.getHighDefinitionVoice(args.mediaId, args.savePath);
-
       // ========== 应用 ==========
       case 'get_agent_list':
         return await wecom.app.getAgentList();

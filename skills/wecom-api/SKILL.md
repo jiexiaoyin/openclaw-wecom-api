@@ -2,7 +2,7 @@
 
 企业微信 API 调用技能，支持客户管理、审批、会议、打卡、通讯录、素材等操作。
 
-> 💡 注意：消息发送统一由 @sunnoy/wecom 通道处理，本技能不暴露发送消息相关动作。
+> 💡 注意：消息发送统一由 @sunnoy/wecom 通道处理，本技能不暴露发送消息相关动作。媒体上传下载也由 @sunnoy/wecom 统一处理。
 
 ## 触发方式
 
@@ -105,15 +105,6 @@
 | `update_event` | 更新日程事件 |
 | `delete_event` | 删除日程 |
 | `add_event_attendees` | 添加参与者 |
-
-### 📁 素材
-
-| 动作 | 说明 |
-|------|------|
-| `upload_image` | 上传图片 |
-| `upload_media` | 上传媒体文件 |
-| `get_media` | 下载媒体文件 |
-| `get_high_definition_voice` | 获取高清语音 |
 
 ### 📱 应用
 
