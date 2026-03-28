@@ -30,11 +30,11 @@ description: |
 
 ```
 # 测试连接
-/skill wecom test_connection
+/skill wecom-api test_connection
 
 # 发送消息
-/skill wecom send_message --userId user001 --content "Hello"
+/skill wecom-api send_message --userId user001 --content "Hello"
 
 # 获取客户列表
-/skill wecom get_customer_list --userId user001
+/skill wecom-api get_customer_list --userId user001
 ```
