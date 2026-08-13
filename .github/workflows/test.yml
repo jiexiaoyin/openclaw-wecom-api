@@ -1,0 +1,39 @@
+# wecom-skill CI Test Workflow (v2026-07-26 21:55 老板 query "BDE" E 步骤)
+# 触发: PR push + main push + 每日 cron
+# 跑: node --test (零污染, 不创建测试审批, 只验 SDK helper)
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # 每日 cron: 02:00 UTC = 10:00 CST
+  schedule:
+    - cron: '0 2 * * *'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20, 22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      # v2026-07-26 21:55 per 9:58 [Fact]: CI 测试不创建真审批单
+      # 即跳过 scripts-* / permission-* / submitApproval 端到端测试
+      - name: Run zero-pollution tests
+        run: |
+          # 排除可能创建真审批单 / 调用企业微信 API 的测试
+          # scripts-submit-template.test.js 21:51 已 skip
+          # 其他端到端测试需要 config.json (本地凭据, CI 没有)
+          SKIP_TESTS=test/scripts-* node --test test/ 2>&1 | tail -15

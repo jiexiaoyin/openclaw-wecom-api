@@ -1,0 +1,12 @@
+{
+  "corpId": "ww1234567890abcdef",
+  "corpSecret": "your_corp_secret_here_REPLACE_BEFORE_USE",
+  "agentId": "1000001",
+  "callback": {
+    "token": "your_callback_token_REPLACE",
+    "encodingAESKey": "your_43char_encodingAESKey_hERE_REPLACE_BEFORE_USE_xx",
+    "port": 18790,
+    "path": "/plugins/wecom-skill/callback"
+  },
+  "dbPath": "~/.openclaw/state/wecom-events.db"
+}

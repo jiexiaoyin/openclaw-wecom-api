@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://openclaw.local/wecom-skill/smartsheet-registry.schema.json",
+  "title": "Smartsheet Registry",
+  "description": "智能表格 SSOT 登记表 schema (跟 docs/approval-templates.schema.json 同模式 - Draft-07 zero-deps)",
+  "type": "object",
+  "required": ["_meta", "sheets"],
+  "additionalProperties": false,
+  "properties": {
+    "_meta": {
+      "type": "object",
+      "required": ["schema_version", "synced_at"],
+      "properties": {
+        "schema_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+        "synced_at": { "type": "string" },
+        "description": { "type": "string" },
+        "purpose": { "type": "string" },
+        "maintainer": { "type": "string" },
+        "related_docs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "sheets": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": ["docid", "name"],
+        "additionalProperties": true,
+        "properties": {
+          "docid": {
+            "type": "string",
+            "minLength": 8,
+            "description": "智能表格 docid (企微后台获取, 通常以 DC 开头)"
+          },
+          "sheetId": {
+            "type": "string",
+            "minLength": 4,
+            "description": "子表 sheetId (智能表格内子表 ID, 通常 6-8 字符字母数字)"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 50,
+            "description": "业务名 (老板中文命名, 跟企微后台表格名可不同)"
+          },
+          "purpose": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "用途说明 (为什么需要登记这个表, 谁会用, 怎么触发)"
+          },
+          "owner": {
+            "type": "string",
+            "description": "负责人 wecom_userid 或名字"
+          },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "maxItems": 10,
+            "description": "标签 (用于 search_smart_sheet 模糊查)"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "登记时间 YYYY-MM-DD"
+          },
+          "last_used_at": {
+            "type": ["string", "null"],
+            "description": "上次使用时间 (cron 自动更新)"
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "备注"
+          }
+        }
+      }
+    }
+  }
+}

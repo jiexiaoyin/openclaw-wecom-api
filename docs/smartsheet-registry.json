@@ -1,0 +1,38 @@
+{
+  "_meta": {
+    "schema_version": "1.0.0",
+    "synced_at": "2026-07-26T11:07:13+08:00",
+    "description": "智能表格 SSOT (Single Source of Truth) 登记表",
+    "purpose": "登记老板业务常用的智能表格 docid/sheetId, 避免硬编码在 cron JSON 或 cron payload 中",
+    "maintainer": "JieXiaoYin",
+    "related_docs": [
+      "../sdk/utils/smartsheet-registry.js",
+      "../bin/wecom-cli.js document list_smart_sheet",
+      "../bin/wecom-cli.js document search_smart_sheet"
+    ]
+  },
+  "sheets": [
+    {
+      "docid": "DC1ARtPa1OXzzfPxxxxxx",
+      "sheetId": "ABC123DE",
+      "name": "晨报日报",
+      "purpose": "晨报机器人发送日报图片 (晨 9:00 自动)",
+      "owner": "JieXiaoYin",
+      "tags": ["cron", "日报", "晨报"],
+      "created_at": "2026-07-26",
+      "last_used_at": null,
+      "notes": "实际 docid 需老板填入; 模板样例"
+    },
+    {
+      "docid": "DC2BSbJb3ONzhgQxxxxxx",
+      "sheetId": "DEF456FG",
+      "name": "门店数据周报",
+      "purpose": "每周汇总门店毛利/销售额 (周末 cron)",
+      "owner": "JieXiaoYin",
+      "tags": ["cron", "周报"],
+      "created_at": "2026-07-26",
+      "last_used_at": null,
+      "notes": "模板样例"
+    }
+  ]
+}

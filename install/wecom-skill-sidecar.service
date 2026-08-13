@@ -1,0 +1,21 @@
+[Unit]
+Description=wecom-skill sidecar notifier (v1.2.2) — WeCom smart sheet events → GeWe wxid_boss
+Documentation=https://github.com/jiexiaoyin/openclaw-wecom-skill
+After=network.target wecom-skill-daemon.service
+Wants=wecom-skill-daemon.service
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/node %h/.openclaw/skills/wecom-skill/bin/sidecar-notifier.js
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+Environment=NODE_ENV=production
+WorkingDirectory=%h/.openclaw/skills/wecom-skill
+# 允许访问 wecomConfig 目录（events.db 读 + sidecar-state.json 写）
+ReadWritePaths=%h/.openclaw/wecomConfig
+
+[Install]
+WantedBy=default.target

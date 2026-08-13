@@ -1,0 +1,43 @@
+# 敏感配置
+.env
+config.local.json
+*.local.json
+config.production.json
+config.json
+!config.example.json
+
+# 本地配置目录
+config/
+
+# 日志
+logs/
+*.log
+npm-debug.log*
+
+# 事件记录
+events_*.json
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+
+# 通讯录缓存（敏感数据）
+data/
+*.cache.json
+addressbook_cache.json
+
+# 统计数据（敏感）
+stats*.json
+wecom-stats.json
+node_modules/
+
+# v1.2.0 事件存储 db（deploy 由 wecom-daemon 创建，dev 仓库无）
+state/
+wecom-events*.db

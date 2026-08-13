@@ -1,0 +1,44 @@
+{
+  "name": "@jiexiaoyin/wecom-skill",
+  "version": "1.5.2",
+  "description": "企业微信 API OpenClaw Skill（pure skill 形态）。SDK 在 sdk/，CLI 入口 bin/wecom-cli.js，v1.2.0 起新增自管 daemon bin/wecom-daemon.js 接收企业微信自建应用回调（纯 skill 范式，**不**写到 ~/.openclaw/extensions/）。",
+  "main": "sdk/index.js",
+  "exports": {
+    ".": "./sdk/index.js",
+    "./sdk": "./sdk/index.js",
+    "./sdk/base": "./sdk/sdk.js",
+    "./config": "./sdk/config.cjs"
+  },
+  "keywords": [
+    "openclaw",
+    "openclaw-skill",
+    "wecom",
+    "enterprise-wechat",
+    "wechatwork"
+  ],
+  "author": "jiexiaoyin <jiexiaoyin@jysm.vip>",
+  "license": "MIT",
+  "bin": {
+    "wecom-skill": "bin/wecom-cli.js",
+    "wecom-daemon": "bin/wecom-daemon.js"
+  },
+  "files": [
+    "bin/",
+    "sdk/",
+    "install/",
+    "SKILL.md",
+    "README.md",
+    "config.example.json"
+  ],
+  "scripts": {
+    "test": "node --test test/crypto.test.js test/permission.test.js test/integration-b2-logger.test.js test/integration-b1-warn.test.js $(ls test/*.test.js | grep -v 'integration-daemon-placeholder\\|crypto.test.js\\|permission.test.js\\|integration-b2-logger.test.js\\|integration-b1-warn.test.js' | tr '\\n' ' ')"
+  },
+  "dependencies": {
+    "axios": "^1.7.0",
+    "xml2js": "^0.6.2"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "homepage": "https://github.com/jiexiaoyin/wecom-skill"
+}

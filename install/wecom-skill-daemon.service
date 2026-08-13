@@ -1,0 +1,26 @@
+[Unit]
+Description=wecom-skill daemon (v1.2.0) — WeCom self-built app HTTP callback
+After=network-online.target
+Wants=network-online.target
+StartLimitBurst=5
+StartLimitIntervalSec=60
+
+[Service]
+Type=simple
+# Fail-fast: systemd 启动前做 syntax check (deploy.sh [2/8] 漏了也有这层兜底)
+# exit 1/78/127 (syntax/usage/not found) — 不应自动重启
+ExecStartPre=-/usr/bin/node --check %h/.openclaw/skills/wecom-skill/bin/wecom-daemon.js
+ExecStart=/usr/bin/node %h/.openclaw/skills/wecom-skill/bin/wecom-daemon.js
+Restart=always
+RestartSec=5
+TimeoutStartSec=30
+TimeoutStopSec=10
+SuccessExitStatus=0 143
+RestartPreventExitStatus=1 78 127
+KillMode=control-group
+Environment=HOME=%h
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

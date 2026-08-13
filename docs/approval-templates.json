@@ -1,0 +1,1262 @@
+{
+  "零售管理": [
+    {
+      "name": "赠品申请",
+      "template_id": "3WKiBeYJ2bVcHrq2mrucYypYSpL3xwgmPGSeU12N",
+      "controls": [
+        {
+          "control": "Text",
+          "id": "Text-1586443494770",
+          "title": "门店",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Textarea",
+          "id": "Textarea-1586443809351",
+          "title": "赠品申请原因",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Textarea",
+          "id": "Textarea-1676947302531",
+          "title": "赠品需求详情",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "File-1586443791520",
+          "title": "附件",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 4,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "陈列巡检",
+      "template_id": "3WKiBeYJ2bVcHrq2mrucYypYSpL3uyjsvT9yW9qm",
+      "controls": [
+        {
+          "control": "Text",
+          "id": "Text-1586443862667",
+          "title": "门店名称",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Date",
+          "id": "Date-1586443940801",
+          "title": "日期",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "File-1586444902884",
+          "title": "门头图片1张",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "File-1586443963909",
+          "title": "柜台远景照片3张",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "File-1586444022658",
+          "title": "柜台近景照片3张",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "File-1586930878555",
+          "title": "配件区照片3张",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "File-1676947739610",
+          "title": "店内全景照片3张",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Textarea",
+          "id": "Textarea-1586444942642",
+          "title": "备注",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 8,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "二手机回收登记",
+      "template_id": "ZvmCpY8y69JuL6SuBD79d7JmJx8qsQU8b4e4ZJ",
+      "controls": [
+        {
+          "control": "Table",
+          "id": "Table-1571757830425",
+          "title": "明细",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 1,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    }
+  ],
+  "财务": [
+    {
+      "name": "垫支清单",
+      "template_id": "C4Ramzh8A3FGmfErD5nwx1V2DiB6j9BihsahiRn2U",
+      "controls": [
+        {
+          "control": "Selector",
+          "id": "Selector-1679887730461",
+          "title": "垫资项目",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Table",
+          "id": "Table-1676941700936",
+          "title": "业务清单",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "Table",
+          "id": "Table-1679888057551",
+          "title": "业务明细",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "File-1676941857145",
+          "title": "附件",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "Textarea",
+          "id": "item-1494249126248",
+          "title": "备注",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 5,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "采购付款申请",
+      "template_id": "3WKiBeYJ2bVcHv53YHVY2b6Semfzb21SH6MBo97f",
+      "controls": [
+        {
+          "control": "Table",
+          "id": "item-1504669193743",
+          "title": "采购明细",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "item-1493800585422",
+          "title": "附件",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "Text-1676944386103",
+          "title": "其他打款账户信息（户名+账号+开户行）",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 3,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "商务打款申请",
+      "template_id": "3WKiBeYJ2bVcHv53YHVY2b6SemfzVrmyJARAnu7r",
+      "controls": [
+        {
+          "control": "Date",
+          "id": "Date-1753751762320",
+          "title": "付款日期",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "Textarea",
+          "id": "item-1494251039326",
+          "title": "付款事由",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Money",
+          "id": "item-1494251052639",
+          "title": "付款金额",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Number",
+          "id": "Number-1753757738898",
+          "title": "使用返利",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "Selector",
+          "id": "Selector-1753751668194",
+          "title": "付款类型",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "item-1494251194643",
+          "title": "收款人信息 户名账号开户行",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Textarea",
+          "id": "item-1494251203122",
+          "title": "备注说明",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "item-1494251220825",
+          "title": "附件(订单详情请上传）",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 8,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "发票",
+      "template_id": "C4Ramzh8A3FGmfErD5nwx1V2DiB6j9BihpbkJYzQr",
+      "controls": [
+        {
+          "control": "Table",
+          "id": "Table-1571833544573",
+          "title": "发票明细",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "File-1676945397972",
+          "title": "销售单",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "File-1753752507324",
+          "title": "开专票 上传对公打款截图",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 3,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "报销申请",
+      "template_id": "ZvdX44vFQg7BdVZJ4HS9yD7GMYVScjgaGUZfY5",
+      "controls": [
+        {
+          "control": "Selector",
+          "id": "item-1503317593875",
+          "title": "报销类型",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Table",
+          "id": "item-1503317853434",
+          "title": "报销明细",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 2,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "客户退款申请",
+      "template_id": "ZvmCpXs4hn77FPJQvWgGxE8cJ7kewaye6SUJH5",
+      "controls": [
+        {
+          "control": "Selector",
+          "id": "Selector-1776394381642",
+          "title": "退款类型",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Number",
+          "id": "Number-1784775165081",
+          "title": "活动办理号码",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "Text-1784775210912",
+          "title": "套餐档次",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "Textarea",
+          "id": "item-1494251039326",
+          "title": "客户退款事由",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "Money",
+          "id": "item-1494251052639",
+          "title": "退款金额",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "item-1494251166594",
+          "title": " 收款人全称",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "item-1494251179316",
+          "title": "支付宝账号",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "File-1676874328889",
+          "title": "云胜销售截图",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "File-1676874554990",
+          "title": "附件",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 9,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "备用金申请",
+      "template_id": "C4UAWELMgRNpgkLNn3KUxPvjVxfa7hQ7rvPJ7DYJc",
+      "controls": [
+        {
+          "control": "Textarea",
+          "id": "item-1494251039326",
+          "title": "备用金事由",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Money",
+          "id": "item-1494251052639",
+          "title": "金额",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "item-1494251166594",
+          "title": " 收款人账户信息 户名账号",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Textarea",
+          "id": "item-1494251203122",
+          "title": "备注说明",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "item-1494251220825",
+          "title": "附件",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 5,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "备用金核销",
+      "template_id": "C4UAWELMgWhskyS6Z5hQ5W2NobGx29GPrq1CeAw11",
+      "controls": [
+        {
+          "control": "Selector",
+          "id": "item-1503317593875",
+          "title": "核销类型",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "RelatedApproval",
+          "id": "RelatedApproval-1676946384468",
+          "title": "关联申请单",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "Table",
+          "id": "item-1503317853434",
+          "title": "核销详情",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 3,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "紧急付款流程",
+      "template_id": "C4WroL663Mt7qHHvwRJeL2Fm13LecnTQFQBEMyeNY",
+      "controls": [
+        {
+          "control": "Textarea",
+          "id": "item-1494251039326",
+          "title": "付款事由",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Money",
+          "id": "item-1494251052639",
+          "title": "付款金额",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Date",
+          "id": "item-1494251158679",
+          "title": "付款日期",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "item-1494251194643",
+          "title": "收款人信息 户名账号开户行",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Textarea",
+          "id": "item-1494251203122",
+          "title": "备注说明",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "item-1494251220825",
+          "title": "附件",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 6,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "订货申请",
+      "template_id": "3WLuvcxd3L2f7FhgmTsMab1i5UPqY1hT8nKvdmYF",
+      "controls": [
+        {
+          "control": "Text",
+          "id": "Text-1571821509026",
+          "title": "订货品牌（可附近上传）",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "Number",
+          "id": "Number-1722043384801",
+          "title": "订货数量",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "Text-1571824925200",
+          "title": "订货金额",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Number",
+          "id": "Number-1722043534384",
+          "title": "需要打款金额",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Textarea",
+          "id": "Textarea-1722043491802",
+          "title": "收款方",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Date",
+          "id": "Date-1571824617853",
+          "title": "提货闭环日期",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Table",
+          "id": "Table-1571824753994",
+          "title": "订单明细",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "File-1571824751205",
+          "title": "附件",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 8,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "借款",
+      "template_id": "C4ZVWqJErPBLRRQWUfvsh3NUYQFKpPq4eJiSbwEo9",
+      "controls": [
+        {
+          "control": "Textarea",
+          "id": "Textarea-1574685188400",
+          "title": "借款事由",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Money",
+          "id": "Money-1574685197903",
+          "title": "借款金额",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Date",
+          "id": "Date-1574685286152",
+          "title": "借款日期",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Date",
+          "id": "Date-1574685292887",
+          "title": "归还日期",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Selector",
+          "id": "Selector-1574685307575",
+          "title": "借款方式",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "Text-1574685324784",
+          "title": "收款人姓名",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "Text-1574685420351",
+          "title": "收款人手机号",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "Text-1574685355414",
+          "title": "开户行",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "Text-1574685334071",
+          "title": "银行账户",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "Textarea",
+          "id": "Textarea-1574685398798",
+          "title": "备注",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "File-1574685403320",
+          "title": "附件",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 11,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "借款归还",
+      "template_id": "C4ZVWqJErPBLRRQWUfvsh3NUYQFKmFUXZdY2fJ4Qm",
+      "controls": [
+        {
+          "control": "Textarea",
+          "id": "Textarea-1736494262065",
+          "title": "还款人",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "Number",
+          "id": "Number-1753753987290",
+          "title": "前期借款金额",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Money",
+          "id": "Money-1736494294230",
+          "title": "本次还款金额",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Date",
+          "id": "Date-1736494283315",
+          "title": "还款日期",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Selector",
+          "id": "Selector-1736494286950",
+          "title": "还款类别",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "File-1736494357147",
+          "title": "附件",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 6,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    }
+  ],
+  "人事": [
+    {
+      "name": "入职申请",
+      "template_id": "C4Ramzh8A3FGmQvzq1HDv9nqnwu5ru8rKANLEoB1n",
+      "controls": [
+        {
+          "control": "Onboarding",
+          "id": "Onboarding-1652025600",
+          "title": "录用",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "File-1753754505469",
+          "title": "身份证、毕业证书上传",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 2,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "转正申请",
+      "template_id": "3WKiBeYJ2bVcHrq2mrucYypYSpL3yffnFkvc7hGk",
+      "controls": [
+        {
+          "control": "Regularization",
+          "id": "Regularization-1652025600",
+          "title": "转正",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "File-1676948339328",
+          "title": "附件",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 2,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "调动申请",
+      "template_id": "C4Ramzh8A3FGmQvzq1HDv9nqnwu5rseNvAbcQhvYf",
+      "controls": [
+        {
+          "control": "Transfer",
+          "id": "Transfer-1652025600",
+          "title": "调动",
+          "require": 1,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 1,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "离职申请",
+      "template_id": "3WKiBeYJ2bVcHrq2mrucYypYSpL3wTNzjXxMVPag",
+      "controls": [
+        {
+          "control": "Resignation",
+          "id": "Resignation-1652025600",
+          "title": "离职",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "File-1676948205602",
+          "title": "手写离职申请 拍照上传",
+          "require": 1,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 2,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "外出",
+      "template_id": "2h2JFhBnEBUMTLhVyF7JneSwWTsyrGZkd8MY",
+      "controls": [
+        {
+          "control": "Textarea",
+          "id": "item-1497581558567",
+          "title": "外出事由",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "item-1497581575653",
+          "title": "外出地点",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Attendance",
+          "id": "smart-time",
+          "title": "外出",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "item-1497581590290",
+          "title": "附件",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 4,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "请假",
+      "template_id": "C4Ramzh8A3FGmQvzq1HDv9nqnwu5rqSRRNULTxReQ",
+      "controls": [
+        {
+          "control": "Vacation",
+          "id": "vacation-1563793073898",
+          "title": "请假类型",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Textarea",
+          "id": "item-1497581399901",
+          "title": "请假事由",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "item-1497581426169",
+          "title": "说明附件",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 3,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "加班",
+      "template_id": "C4Ramzh8A3FGmQvzq1HDv9nqnwu5ru81t9mrUZRa9",
+      "controls": [
+        {
+          "control": "Textarea",
+          "id": "item-item-1493800414708",
+          "title": "加班事由",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Attendance",
+          "id": "smart-time",
+          "title": "加班",
+          "require": 1,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 2,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "打卡补卡",
+      "template_id": "3WLJ7ApqEHS71MJXZcAE8ULeZQqoa5LBv3MrFyjF",
+      "controls": [
+        {
+          "control": "PunchCorrection",
+          "id": "PunchCorrection-1563866243179",
+          "title": "补卡",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Textarea",
+          "id": "item-1497417335175",
+          "title": "补卡事由",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "item-1497513542396",
+          "title": "说明附件",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 3,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "审批打卡",
+      "template_id": "3WLuvbCqFwXF2bN7HRpkKepiWxUriDBH57FB9MFQ",
+      "controls": [
+        {
+          "control": "Text",
+          "id": "Text-1719392520790",
+          "title": "申请原因",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "Text-1719392540743",
+          "title": "打卡时间",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "Text-1719392813910",
+          "title": "打卡班次",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Location",
+          "id": "Location-1719392880151",
+          "title": "打卡地点",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "File-1719392916554",
+          "title": "拍照备注",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Textarea",
+          "id": "Textarea-1719392949250",
+          "title": "打卡备注",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 6,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "调班",
+      "template_id": "3WLJ7ApqEHS71MJXZcAE8ULeZQqobYyGW95dxHcs",
+      "controls": [
+        {
+          "control": "SwitchSchedule",
+          "id": "item-1553775467912",
+          "title": "调班",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Textarea",
+          "id": "item-1554798363160",
+          "title": "调班事由",
+          "require": 1,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 2,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    }
+  ],
+  "行政": [
+    {
+      "name": "用章",
+      "template_id": "3WKiBeYJ2bVcHv53YHVY2b6SemfzY5EirG5Mqd8J",
+      "controls": [
+        {
+          "control": "Textarea",
+          "id": "item-1494250243354",
+          "title": "用印事由",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Selector",
+          "id": "item-1494250257188",
+          "title": "印章类型",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "item-1494250291935",
+          "title": "文件名称",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Number",
+          "id": "item-1494250298935",
+          "title": "文件份数",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Date",
+          "id": "item-1494250378902",
+          "title": "用印日期",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "item-1494250388062",
+          "title": "附件",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 6,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "用车",
+      "template_id": "3WKiBeYJ2bVcHv53YHVY2b6SemfzVschp7vbEjPD",
+      "controls": [
+        {
+          "control": "Textarea",
+          "id": "item-1493383305604",
+          "title": "用车事由",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Date",
+          "id": "item-1493383322505",
+          "title": "开始时间",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Date",
+          "id": "item-1493383331691",
+          "title": "结束时间",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "item-1493383337907",
+          "title": "用车时长",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "item-1493709109765",
+          "title": "用车目的地",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Selector",
+          "id": "item-1494250171488",
+          "title": "车辆类型",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 6,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "物品领用",
+      "template_id": "3WKiBeYJ2bVcHv53YHVY2b6Semfzb3BaB4zfAvME",
+      "controls": [
+        {
+          "control": "Textarea",
+          "id": "item-1494250993171",
+          "title": "用途",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Table",
+          "id": "Table-1568881464583",
+          "title": "明细",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "item-1494251026821",
+          "title": "附件",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 3,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "物品维修",
+      "template_id": "C4Ramzh8A3FGmfErD5nwx1V2DiB6j8TQFUax8mwUB",
+      "controls": [
+        {
+          "control": "Text",
+          "id": "item-1494251246528",
+          "title": "故障设备名称",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Textarea",
+          "id": "item-1494251261857",
+          "title": "故障描述",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Date",
+          "id": "item-1494251274018",
+          "title": "报修日期",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Number",
+          "id": "item-1494251283947",
+          "title": "预计维修费用",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "item-1494251296865",
+          "title": "附件",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 5,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    }
+  ],
+  "其他": [
+    {
+      "name": "门店水电费付款申请",
+      "template_id": "3WN6K28ZmN3rxWqBfkZTdsKV6sEhQBtewyCvuvR5",
+      "controls": [
+        {
+          "control": "Textarea",
+          "id": "item-1494251039326",
+          "title": "付款事由",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "Text-1753757042917",
+          "title": "门店",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "Money",
+          "id": "item-1494251052639",
+          "title": "付款金额",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Selector",
+          "id": "item-1494251058811",
+          "title": "付款方式",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Textarea",
+          "id": "Textarea-1753757087557",
+          "title": "收款账户",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "Date",
+          "id": "item-1494251158679",
+          "title": "付款日期",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Textarea",
+          "id": "item-1494251203122",
+          "title": "备注说明",
+          "require": 0,
+          "hidden": 0
+        },
+        {
+          "control": "File",
+          "id": "item-1494251220825",
+          "title": "附件",
+          "require": 0,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 8,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "退款给客户",
+      "template_id": "3WLJ7G9TU6FbSJRVSSnkkZEr67rJN4eM959MXZbL",
+      "controls": [
+        {
+          "control": "Text",
+          "id": "Text-1598340792149",
+          "title": "退款给",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Money",
+          "id": "Money-1598340792150",
+          "title": "退款金额",
+          "require": 1,
+          "hidden": 0
+        },
+        {
+          "control": "Text",
+          "id": "Text-1598340792152",
+          "title": "退款备注",
+          "require": 1,
+          "hidden": 0
+        }
+      ],
+      "controls_count": 3,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "高级功能申请",
+      "template_id": "C4ZRw6cFhehrmBT4cyjMkynRiRWEdVKHnr8yEEHDZ",
+      "controls": [],
+      "controls_count": 0,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    },
+    {
+      "name": "申请创建长连接方式机器人",
+      "template_id": "C4eiZAga4w4HANh716SFyXJQ12mPSMzY7Rj2yN8BA",
+      "controls": [],
+      "controls_count": 0,
+      "synced_at": "2026-07-26T03:29:27.313Z"
+    }
+  ],
+  "_sync": {
+    "synced_at": "2026-07-26T03:29:27.313Z",
+    "source": "企微 SDK syncApprovalTemplates",
+    "total": 33,
+    "total_groups": 5,
+    "synced_controls_count": 140,
+    "sync_tool": "w.approval.syncApprovalTemplates()"
+  }
+}

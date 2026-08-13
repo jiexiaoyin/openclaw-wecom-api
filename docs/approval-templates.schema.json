@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "企业微信审批模板 ID 配置",
+  "description": "审批模块本地 SSOT: template_id + 名称 + 分组. 老板从企微 admin 后台 HTML 解析后维护",
+  "type": "object",
+  "additionalProperties": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "required": ["name", "template_id"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "template_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{8,64}$",
+          "description": "企微后台生成的审批模板 ID"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "财务": [
+        { "name": "客户退款申请", "template_id": "ZvmCpXs4hn77FPJQvWgGxE8cJ7kewaye6SUJH5" },
+        { "name": "报销申请", "template_id": "ZvdX44vFQg7BdVZJ4HS9yD7GMYVScjgaGUZfY5" },
+        { "name": "打卡补卡", "template_id": "3WLJ7ApqEHS71MJXZcAE8ULeZQqoa5LBv3MrFyjF" }
+      ]
+    }
+  ]
+}
